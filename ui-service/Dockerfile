@@ -1,11 +1,10 @@
-FROM node:12.14-alpine AS build
+FROM node:alpine AS build
+WORKDIR /app
+COPY ./ui/ ./
 
-WORKDIR /dist/src/app
-RUN npm cache clean --force
+RUN npm install -g @angular/cli && \
+    npm install && \
+    ng build
 
-COPY ./ui .
-RUN npm install
-RUN npm run build --prod
-
-FROM nginx:latest
-COPY --from=build /dist/src/app/dist/ui /usr/share/nginx/html
+FROM nginx:alpine
+COPY --from=build /app/dist/ui /usr/share/nginx/html
