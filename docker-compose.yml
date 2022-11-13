@@ -27,8 +27,6 @@ services:
     container_name: ui-service
     build: ./ui-service
     image: ui-service:latest
-    ports:
-      - 8080:80
     restart: always
     volumes:
       - ./ui-service/conf/:/etc/nginx/conf.d/:ro
