@@ -7,10 +7,10 @@ Rojava is:
 3. Self-governance.
 
 # Documentation
-add certficate:
+_add certficate:
 
 sudo docker-compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d www.javasoft.solutions
 
-renew certificate:
+_renew certificate:
 
 sudo docker-compose run --rm certbot renew
