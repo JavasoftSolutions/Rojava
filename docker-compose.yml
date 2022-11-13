@@ -1,0 +1,36 @@
+version: "3.7"
+
+networks:
+  rojava-network:
+    name: rojava-network
+services:
+  nginx-service:
+    container_name: nginx-service
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx-service/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
+    networks:
+      - rojava-network
+  certbot:
+    container_name: certbot
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+  ui-service:
+    container_name: ui-service
+    build: ./ui-service
+    image: ui-service:latest
+    ports:
+      - 8080:80
+    restart: always
+    volumes:
+      - ./ui-service/conf/:/etc/nginx/conf.d/:ro
+    networks:
+      - rojava-network
